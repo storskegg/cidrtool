@@ -35,7 +35,7 @@ func main() {
 		},
 		{
 			Name:   "srv",
-			Usage:  "start a server providing a web interface to all commands",
+			Usage:  "start a server providing a web interface to all commands. ignores --db flag",
 			Action: actionServe,
 		},
 	}
