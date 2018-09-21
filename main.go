@@ -14,6 +14,7 @@ func main() {
 	app.Usage = "A small application to make manipulating CIDR notation easier"
 	app.Description = "cidrtool is a small application to make manipulating CIDR notation a little bit\neasier. For now, it takes a list of IPv4 addresses and CIDR ranges, removes collisions,\nand returns the smallest possible set of CIDRs."
 	app.Version = "0.2.0"
+	app.Before = checkDBEnv
 	app.Commands = []cli.Command{
 		{
 			Name:    "pack",
@@ -50,8 +51,6 @@ func main() {
 			Usage: "Do not display stats",
 		},
 	}
-
-	app.Before = checkDBEnv
 
 	err := app.Run(os.Args)
 	checkErr(err)
