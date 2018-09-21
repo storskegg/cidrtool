@@ -37,8 +37,10 @@ func unpack(cidrs []string) ([]string, error) {
 	// Don't force the user to declare every range in CIDR
 	// e.g. a range of /32 for a single IPv4
 	for i, cidr := range cidrs {
-		if b, err := regexp.MatchString("/\\d{1,2}$", cidr); !b && err != nil {
+		if b, err := regexp.MatchString("/\\d{1,2}$", cidr); !b && err == nil {
 			cidrs[i] = cidr + "/32"
+		} else if err != nil {
+			return nil, err
 		}
 	}
 
