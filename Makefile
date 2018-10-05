@@ -13,7 +13,7 @@ all: clean dep test build
 build:
 	    cd cidrtool && $(GOBUILD) -o ../$(BINPATH)/$(BINARY) -v
 test:
-		$(GOTEST) -v
+		$(GOTEST) -v ./...
 clean:
 		$(GOCLEAN)
 		rm -f $(BINPATH)/$(BINARY)
