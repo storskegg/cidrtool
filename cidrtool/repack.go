@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/storskegg/cidrtool/fio"
+	"github.com/storskegg/cidrtool/ips"
 	"gopkg.in/urfave/cli.v1"
-	"keybase/cidrtool/fio"
 )
 
 func actionRepack(c *cli.Context) error {
@@ -11,30 +12,29 @@ func actionRepack(c *cli.Context) error {
 	if infile == "" {
 		return fmt.Errorf("repack requires a valid path to an input file")
 	}
-	//outfile := c.Args().Get(1)
 
-	cidrs, err := fio.ReadLinesFromFile(infile)
+	cidrList, err := fio.ReadLinesFromFile(infile)
 	if err != nil {
 		return err
 	}
 
-	ipStrings, err := unpack(cidrs)
+	ipList, err := ips.Unpack(cidrList)
 	if err != nil {
 		return err
 	}
 
-	cidrs2, err := pack(ipStrings)
+	cidrListPacked, err := ips.Pack(ipList)
 	if err != nil {
 		return err
 	}
 
-	for _, c := range cidrs2 {
+	for _, c := range cidrListPacked {
 		fmt.Println(c)
 	}
 
 	if c.BoolT("nostats") {
-		fmt.Println("Num CIDRs Analyzed:", len(cidrs))
-		fmt.Println("Num CIDRs Resulted:", len(cidrs2))
+		fmt.Println("Num CIDRs Analyzed:", len(cidrList))
+		fmt.Println("Num CIDRs Resulted:", len(cidrListPacked))
 	}
 
 	return nil
