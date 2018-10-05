@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"gopkg.in/urfave/cli.v1"
 	"log"
 	"os"
@@ -14,7 +13,6 @@ func main() {
 	app.Usage = "A small application to make manipulating CIDR notation easier"
 	app.Description = "cidrtool is a small application to make manipulating CIDR notation a little bit\neasier. For now, it takes a list of IPv4 addresses and CIDR ranges, removes collisions,\nand returns the smallest possible set of CIDRs."
 	app.Version = "0.2.0"
-	app.Before = checkDBEnv
 	app.Commands = []cli.Command{
 		{
 			Name:    "pack",
@@ -54,16 +52,6 @@ func main() {
 
 	err := app.Run(os.Args)
 	checkErr(err)
-}
-
-func checkDBEnv(c *cli.Context) error {
-	if c.GlobalBool("db") {
-		pgURI := os.Getenv("RA_PG_URI")
-		if pgURI == "" {
-			return fmt.Errorf("global flag --db requires a valid postgres uri set in env var RA_PG_URI")
-		}
-	}
-	return nil
 }
 
 func checkErr(err error) {
