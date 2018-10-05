@@ -11,9 +11,9 @@ BINARY=cidrtool
 
 all: clean dep test build
 build:
-	    $(GOBUILD) -o $(BINPATH)/$(BINARY) -v
+	    cd cidrtool && $(GOBUILD) -o ../$(BINPATH)/$(BINARY) -v
 test:
-		$(GOTEST) -v .
+		$(GOTEST) -v
 clean:
 		$(GOCLEAN)
 		rm -f $(BINPATH)/$(BINARY)
