@@ -37,12 +37,5 @@ func actionRepack(c *cli.Context) error {
 		fmt.Println("Num CIDRs Resulted:", len(cidrs2))
 	}
 
-	if c.GlobalBool("db") {
-		err = pushToDB(cidrs2)
-		if err != nil {
-			return nil
-		}
-	}
-
 	return nil
 }
