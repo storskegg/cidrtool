@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"gopkg.in/urfave/cli.v1"
 	"log"
 	"os"
+	"time"
 )
 
 func main() {
@@ -12,7 +14,15 @@ func main() {
 	app.Name = "cidrtool"
 	app.Usage = "A small application to make manipulating CIDR notation easier"
 	app.Description = "cidrtool is a small application to make manipulating CIDR notation a little bit\neasier. For now, it takes a list of IPv4 addresses and CIDR ranges, removes collisions,\nand returns the smallest possible set of CIDRs."
-	app.Version = "0.2.0"
+	app.Version = "0.2.1"
+	app.Compiled = time.Now()
+	app.Authors = []cli.Author{
+		{
+			Name:  "William Conrad",
+			Email: "liam@storskegg.org",
+		},
+	}
+	app.Copyright = "(c) 2018 William Conrad"
 	app.Commands = []cli.Command{
 		{
 			Name:    "pack",
@@ -41,13 +51,14 @@ func main() {
 
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
-			Name:  "db",
-			Usage: "Push to PostgresDB",
-		},
-		cli.BoolTFlag{
 			Name:  "nostats",
 			Usage: "Do not display stats",
 		},
+	}
+
+	app.CommandNotFound = func(c *cli.Context, command string) {
+		_, err := fmt.Fprintf(c.App.Writer, "Unrecognized command: %q\n", command)
+		checkErr(err)
 	}
 
 	err := app.Run(os.Args)
