@@ -2,7 +2,7 @@ package ips
 
 import (
 	"fmt"
-	strings2 "keybase/cidrtool/strings"
+	strings2 "github.com/storskegg/cidrtool/strings"
 	"net"
 	"sort"
 	"strconv"
